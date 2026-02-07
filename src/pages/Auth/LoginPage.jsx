@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Lock,
   Mail,
@@ -9,43 +9,43 @@ import {
   Smartphone,
   User,
   AlertCircle,
-  CheckCircle
-} from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
-import toast from 'react-hot-toast';
+  CheckCircle,
+} from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [loginMethod, setLoginMethod] = useState('email'); // 'email' or 'phone'
+  const [loginMethod, setLoginMethod] = useState("email"); // 'email' or 'phone'
   const [rememberMe, setRememberMe] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || "/";
 
   const validateForm = () => {
-    if (loginMethod === 'email') {
+    if (loginMethod === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        toast.error('Please enter a valid email address');
+        toast.error("Please enter a valid email address");
         return false;
       }
     } else {
       const phoneRegex = /^[6-9]\d{9}$/;
-      const cleanPhone = email.replace(/\D/g, '');
+      const cleanPhone = email.replace(/\D/g, "");
       if (!phoneRegex.test(cleanPhone)) {
-        toast.error('Please enter a valid 10-digit phone number');
+        toast.error("Please enter a valid 10-digit phone number");
         return false;
       }
     }
 
     if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      toast.error("Password must be at least 6 characters");
       return false;
     }
 
@@ -60,36 +60,38 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const credentials = loginMethod === 'email'
-        ? { email, password, rememberMe }
-        : { phone: email, password, rememberMe };
+      const credentials =
+        loginMethod === "email"
+          ? { email, password, rememberMe }
+          : { phone: email, password, rememberMe };
 
       const result = await login(credentials);
 
       if (result.success) {
-        toast.success('Login successful!');
+        toast.success("Login successful!");
 
         // Determine destination based on role if no specific return url
-        const isDefaultRedirect = from === '/' || from === '/login' || from === '/vendor/login';
+        const isDefaultRedirect =
+          from === "/" || from === "/login" || from === "/vendor/login";
         let destination = from;
 
         if (isDefaultRedirect) {
           switch (result.user.role) {
-            case 'vendor':
-              destination = '/vendor/dashboard';
+            case "vendor":
+              destination = "/vendor/dashboard";
               break;
             default:
-              destination = '/';
+              destination = "/";
           }
         }
 
         navigate(destination, { replace: true });
       } else {
-        toast.error(result.error || 'Login failed');
+        toast.error(result.error || "Login failed");
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
-      console.error('Login error:', error);
+      toast.error("An error occurred. Please try again.");
+      console.error("Login error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -97,13 +99,13 @@ const LoginPage = () => {
 
   const handleDemoLogin = (role) => {
     const demoCredentials = {
-      student: { email: 'student@campus.edu', password: 'MockPass@123!' },
-      vendor: { email: 'cafe@campus.edu', password: 'MockPass@123!' },
-      // admin: { email: 'admin@campus.edu', password: 'MockPass@123!' } 
+      student: { email: "student@campus.edu", password: "MockPass@123!" },
+      vendor: { email: "cafe@campus.edu", password: "MockPass@123!" },
+      // admin: { email: 'admin@campus.edu', password: 'MockPass@123!' }
     };
 
-    if (role === 'admin') {
-      toast.error('Admin dashboard not implemented yet');
+    if (role === "admin") {
+      toast.error("Admin dashboard not implemented yet");
       return;
     }
 
@@ -135,7 +137,7 @@ const LoginPage = () => {
         </div>
 
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Welcome back to Campus Pre-Order
+          Welcome back to FlowSync
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Sign in to skip the queue and pre-order your favorites
@@ -149,11 +151,12 @@ const LoginPage = () => {
             <div className="flex rounded-lg bg-gray-100 p-1">
               <button
                 type="button"
-                onClick={() => setLoginMethod('email')}
-                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${loginMethod === 'email'
-                  ? 'bg-white text-blue-600 shadow'
-                  : 'text-gray-600 hover:text-gray-900'
-                  }`}
+                onClick={() => setLoginMethod("email")}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
+                  loginMethod === "email"
+                    ? "bg-white text-blue-600 shadow"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
               >
                 <div className="flex items-center justify-center space-x-2">
                   <Mail className="w-4 h-4" />
@@ -163,11 +166,12 @@ const LoginPage = () => {
 
               <button
                 type="button"
-                onClick={() => setLoginMethod('phone')}
-                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${loginMethod === 'phone'
-                  ? 'bg-white text-blue-600 shadow'
-                  : 'text-gray-600 hover:text-gray-900'
-                  }`}
+                onClick={() => setLoginMethod("phone")}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
+                  loginMethod === "phone"
+                    ? "bg-white text-blue-600 shadow"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
               >
                 <div className="flex items-center justify-center space-x-2">
                   <Smartphone className="w-4 h-4" />
@@ -180,12 +184,15 @@ const LoginPage = () => {
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Email/Phone Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                {loginMethod === 'email' ? 'Email address' : 'Phone number'}
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                {loginMethod === "email" ? "Email address" : "Phone number"}
               </label>
               <div className="mt-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  {loginMethod === 'email' ? (
+                  {loginMethod === "email" ? (
                     <Mail className="h-5 w-5 text-gray-400" />
                   ) : (
                     <Smartphone className="h-5 w-5 text-gray-400" />
@@ -194,16 +201,14 @@ const LoginPage = () => {
                 <input
                   id="email"
                   name="email"
-                  type={loginMethod === 'email' ? 'email' : 'tel'}
-                  autoComplete={loginMethod === 'email' ? 'email' : 'tel'}
+                  type={loginMethod === "email" ? "email" : "tel"}
+                  autoComplete={loginMethod === "email" ? "email" : "tel"}
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder={
-                    loginMethod === 'email'
-                      ? 'you@campus.edu'
-                      : '9876543210'
+                    loginMethod === "email" ? "you@campus.edu" : "9876543210"
                   }
                 />
               </div>
@@ -211,7 +216,10 @@ const LoginPage = () => {
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="mt-1 relative">
@@ -221,7 +229,7 @@ const LoginPage = () => {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
                   value={password}
@@ -254,7 +262,10 @@ const LoginPage = () => {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   Remember me
                 </label>
               </div>
@@ -282,7 +293,7 @@ const LoginPage = () => {
                     Signing in...
                   </>
                 ) : (
-                  'Sign in'
+                  "Sign in"
                 )}
               </button>
             </div>
@@ -295,13 +306,15 @@ const LoginPage = () => {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Try demo accounts</span>
+                <span className="px-2 bg-white text-gray-500">
+                  Try demo accounts
+                </span>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-3 gap-3">
               <button
-                onClick={() => handleDemoLogin('student')}
+                onClick={() => handleDemoLogin("student")}
                 className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
               >
                 <User className="w-4 h-4 mr-2" />
@@ -309,7 +322,7 @@ const LoginPage = () => {
               </button>
 
               <button
-                onClick={() => handleDemoLogin('vendor')}
+                onClick={() => handleDemoLogin("vendor")}
                 className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
               >
                 <User className="w-4 h-4 mr-2" />
@@ -317,7 +330,7 @@ const LoginPage = () => {
               </button>
 
               <button
-                onClick={() => handleDemoLogin('admin')}
+                onClick={() => handleDemoLogin("admin")}
                 className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
               >
                 <User className="w-4 h-4 mr-2" />
@@ -339,10 +352,7 @@ const LoginPage = () => {
             </div>
 
             <div className="mt-2 text-center text-xs text-gray-500">
-              <Link
-                to="/vendor/login"
-                className="hover:text-blue-600"
-              >
+              <Link to="/vendor/login" className="hover:text-blue-600">
                 Are you a vendor? Sign in here
               </Link>
             </div>
@@ -353,7 +363,9 @@ const LoginPage = () => {
             <div className="flex items-start space-x-2">
               <CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-xs text-blue-700 font-medium">Secure Login</p>
+                <p className="text-xs text-blue-700 font-medium">
+                  Secure Login
+                </p>
                 <p className="text-xs text-blue-600">
                   Your data is protected with 256-bit SSL encryption
                 </p>
@@ -368,7 +380,9 @@ const LoginPage = () => {
             <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
               <AlertCircle className="w-5 h-5 text-green-600" />
             </div>
-            <h4 className="font-medium text-gray-800">AI-Powered Predictions</h4>
+            <h4 className="font-medium text-gray-800">
+              AI-Powered Predictions
+            </h4>
             <p className="text-xs text-gray-600 mt-1">
               Accurate wait time predictions
             </p>

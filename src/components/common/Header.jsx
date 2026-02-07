@@ -24,9 +24,7 @@ const Header = () => {
               <Clock className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800">
-                CampusPreOrder
-              </h1>
+              <h1 className="text-xl font-bold text-gray-800">FlowSync</h1>
               <p className="text-xs text-gray-500">Skip the queue</p>
             </div>
           </Link>
