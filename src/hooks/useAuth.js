@@ -42,10 +42,11 @@ export const useAuth = () => {
     }, []);
 
     // Login function
-    const login = useCallback(async (email, password, rememberMe = false) => {
+    const login = useCallback(async (credentials) => {
         try {
             setIsLoading(true);
-            const { user, token } = await authService.login(email, password);
+            const { user, token } = await authService.login(credentials);
+            const { rememberMe } = credentials;
 
             if (rememberMe) {
                 localStorage.setItem('token', token);

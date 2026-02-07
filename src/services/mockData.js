@@ -5,16 +5,23 @@ export const mockUsers = [
         email: 'student@campus.edu',
         role: 'student',
         phone: '9876543210',
-        password: 'password123'
+        password: 'MockPass@123!'
     },
     {
         id: '2',
         name: 'Campus Cafe',
         email: 'cafe@campus.edu',
         role: 'vendor',
-        phone: '9876543211',
         vendorId: 'v1',
-        password: 'password123'
+        password: 'MockPass@123!'
+    },
+    {
+        id: '3',
+        name: 'System Admin',
+        email: 'admin@campus.edu',
+        role: 'admin',
+        phone: '9876543299',
+        password: 'MockPass@123!'
     }
 ];
 

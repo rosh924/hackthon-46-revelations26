@@ -39,7 +39,11 @@ const ProtectedRoute = ({ children, role }) => {
   }
 
   if (role && user.role !== role) {
-    return <Navigate to="/" />;
+    // Prevent infinite redirects by sending to role-specific home
+    if (user.role === 'vendor') {
+      return <Navigate to="/vendor/dashboard" replace />;
+    }
+    return <Navigate to="/" replace />;
   }
 
   return children;

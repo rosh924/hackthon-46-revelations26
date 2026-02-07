@@ -61,14 +61,29 @@ const LoginPage = () => {
 
     try {
       const credentials = loginMethod === 'email'
-        ? { email, password }
-        : { phone: email, password };
+        ? { email, password, rememberMe }
+        : { phone: email, password, rememberMe };
 
       const result = await login(credentials);
 
       if (result.success) {
         toast.success('Login successful!');
-        navigate(from, { replace: true });
+
+        // Determine destination based on role if no specific return url
+        const isDefaultRedirect = from === '/' || from === '/login' || from === '/vendor/login';
+        let destination = from;
+
+        if (isDefaultRedirect) {
+          switch (result.user.role) {
+            case 'vendor':
+              destination = '/vendor/dashboard';
+              break;
+            default:
+              destination = '/';
+          }
+        }
+
+        navigate(destination, { replace: true });
       } else {
         toast.error(result.error || 'Login failed');
       }
@@ -82,10 +97,15 @@ const LoginPage = () => {
 
   const handleDemoLogin = (role) => {
     const demoCredentials = {
-      student: { email: 'student@campus.edu', password: 'demo123' },
-      vendor: { email: 'vendor@campus.edu', password: 'demo123' },
-      admin: { email: 'admin@campus.edu', password: 'demo123' }
+      student: { email: 'student@campus.edu', password: 'MockPass@123!' },
+      vendor: { email: 'cafe@campus.edu', password: 'MockPass@123!' },
+      // admin: { email: 'admin@campus.edu', password: 'MockPass@123!' } 
     };
+
+    if (role === 'admin') {
+      toast.error('Admin dashboard not implemented yet');
+      return;
+    }
 
     setEmail(demoCredentials[role].email);
     setPassword(demoCredentials[role].password);
@@ -131,8 +151,8 @@ const LoginPage = () => {
                 type="button"
                 onClick={() => setLoginMethod('email')}
                 className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${loginMethod === 'email'
-                    ? 'bg-white text-blue-600 shadow'
-                    : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white text-blue-600 shadow'
+                  : 'text-gray-600 hover:text-gray-900'
                   }`}
               >
                 <div className="flex items-center justify-center space-x-2">
@@ -145,8 +165,8 @@ const LoginPage = () => {
                 type="button"
                 onClick={() => setLoginMethod('phone')}
                 className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${loginMethod === 'phone'
-                    ? 'bg-white text-blue-600 shadow'
-                    : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white text-blue-600 shadow'
+                  : 'text-gray-600 hover:text-gray-900'
                   }`}
               >
                 <div className="flex items-center justify-center space-x-2">
