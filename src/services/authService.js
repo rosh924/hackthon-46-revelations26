@@ -7,7 +7,7 @@ export const authService = {
             return await api.post('/auth/login', { email, password });
         } catch (error) {
             console.warn('Backend unavailable, using mock data');
-            const user = mockUsers.find(u => u.email === email);
+            const user = mockUsers.find(u => u.email === email && u.password === password);
             if (user) return { user, token: 'mock-token-' + user.id };
             throw new Error('Invalid credentials (mock)');
         }

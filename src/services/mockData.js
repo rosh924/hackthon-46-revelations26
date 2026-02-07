@@ -4,7 +4,8 @@ export const mockUsers = [
         name: 'John Doe',
         email: 'student@campus.edu',
         role: 'student',
-        phone: '9876543210'
+        phone: '9876543210',
+        password: 'password123'
     },
     {
         id: '2',
@@ -12,7 +13,8 @@ export const mockUsers = [
         email: 'cafe@campus.edu',
         role: 'vendor',
         phone: '9876543211',
-        vendorId: 'v1'
+        vendorId: 'v1',
+        password: 'password123'
     }
 ];
 
