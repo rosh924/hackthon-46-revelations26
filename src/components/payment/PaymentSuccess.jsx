@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle, Clock, MapPin, QrCode, Share2, Download, Printer } from 'lucide-react';
 import QRCode from 'qrcode.react';
 import Confetti from 'react-confetti';
+import { toast } from 'react-hot-toast';
 
 const PaymentSuccess = ({ order, onContinueShopping }) => {
   const [showConfetti, setShowConfetti] = useState(true);

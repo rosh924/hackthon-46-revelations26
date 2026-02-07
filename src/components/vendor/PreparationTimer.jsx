@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Timer, 
-  Play, 
-  Pause, 
-  SkipForward, 
+import {
+  Timer,
+  Play,
+  Pause,
+  SkipForward,
   AlertTriangle,
   CheckCircle,
   Clock,
@@ -18,14 +18,15 @@ const PreparationTimer = ({ orders }) => {
     // Initialize timers for preparing orders
     const initialTimers = {};
     const initialElapsed = {};
-    
+
     orders.forEach(order => {
       if (order.status === 'preparing') {
         initialTimers[order.id] = false; // Not running by default
         initialElapsed[order.id] = order.elapsedSeconds || 0;
       }
     });
-    
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActiveTimers(initialTimers);
     setElapsedTimes(initialElapsed);
   }, [orders]);
@@ -81,7 +82,7 @@ const PreparationTimer = ({ orders }) => {
   const getTimeStatus = (order) => {
     const elapsed = elapsedTimes[order.id] || 0;
     const predicted = order.predictedPrepTime * 60;
-    
+
     if (elapsed > predicted * 1.2) return 'overdue';
     if (elapsed > predicted * 0.8) return 'warning';
     return 'good';
@@ -117,7 +118,7 @@ const PreparationTimer = ({ orders }) => {
           const predicted = order.predictedPrepTime * 60;
           const progress = getProgressPercentage(order);
           const status = getTimeStatus(order);
-          
+
           return (
             <div key={order.id} className="border rounded-xl p-4 hover:shadow-sm transition-shadow">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -134,7 +135,7 @@ const PreparationTimer = ({ orders }) => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Complexity Indicators */}
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center space-x-1">
@@ -143,7 +144,7 @@ const PreparationTimer = ({ orders }) => {
                         Complexity: {order.items?.reduce((sum, item) => sum + (item.complexity || 0), 0) || 3}/10
                       </span>
                     </div>
-                    
+
                     {order.requiresAttention && (
                       <div className="flex items-center space-x-1">
                         <AlertTriangle className="w-3 h-3 text-red-500" />
@@ -155,11 +156,10 @@ const PreparationTimer = ({ orders }) => {
 
                 {/* Timer Display */}
                 <div className="flex flex-col items-center">
-                  <div className={`text-3xl font-bold mb-1 ${
-                    status === 'overdue' ? 'text-red-600' :
-                    status === 'warning' ? 'text-yellow-600' :
-                    'text-green-600'
-                  }`}>
+                  <div className={`text-3xl font-bold mb-1 ${status === 'overdue' ? 'text-red-600' :
+                      status === 'warning' ? 'text-yellow-600' :
+                        'text-green-600'
+                    }`}>
                     {formatTime(elapsed)}
                   </div>
                   <div className="text-sm text-gray-500">
@@ -171,11 +171,10 @@ const PreparationTimer = ({ orders }) => {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => toggleTimer(order.id)}
-                    className={`p-3 rounded-lg flex items-center justify-center ${
-                      activeTimers[order.id]
+                    className={`p-3 rounded-lg flex items-center justify-center ${activeTimers[order.id]
                         ? 'bg-red-100 text-red-600 hover:bg-red-200'
                         : 'bg-green-100 text-green-600 hover:bg-green-200'
-                    } transition-colors`}
+                      } transition-colors`}
                   >
                     {activeTimers[order.id] ? (
                       <Pause className="w-5 h-5" />
@@ -183,7 +182,7 @@ const PreparationTimer = ({ orders }) => {
                       <Play className="w-5 h-5" />
                     )}
                   </button>
-                  
+
                   <button
                     onClick={() => resetTimer(order.id)}
                     className="p-3 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
@@ -201,22 +200,21 @@ const PreparationTimer = ({ orders }) => {
                 </div>
                 <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-500 ${
-                      status === 'overdue' ? 'bg-red-500' :
-                      status === 'warning' ? 'bg-yellow-500' :
-                      'bg-green-500'
-                    }`}
+                    className={`h-full rounded-full transition-all duration-500 ${status === 'overdue' ? 'bg-red-500' :
+                        status === 'warning' ? 'bg-yellow-500' :
+                          'bg-green-500'
+                      }`}
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
-                
+
                 {/* Time Status Indicators */}
                 <div className="flex justify-between mt-2">
                   <div className="flex items-center space-x-1">
                     <Clock className="w-3 h-3 text-gray-400" />
                     <span className="text-xs text-gray-500">Start: 0:00</span>
                   </div>
-                  
+
                   <div className="flex items-center space-x-1">
                     {status === 'overdue' && (
                       <>
@@ -237,7 +235,7 @@ const PreparationTimer = ({ orders }) => {
                       </>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center space-x-1">
                     <CheckCircle className="w-3 h-3 text-gray-400" />
                     <span className="text-xs text-gray-500">Target: {formatTime(predicted)}</span>
@@ -289,14 +287,14 @@ const PreparationTimer = ({ orders }) => {
             </div>
             <div className="text-sm text-gray-600">Total Active Time</div>
           </div>
-          
+
           <div className="text-center">
             <div className="text-2xl font-bold text-green-600">
               {preparingOrders.filter(order => getTimeStatus(order) === 'good').length}
             </div>
             <div className="text-sm text-gray-600">On Track</div>
           </div>
-          
+
           <div className="text-center">
             <div className="text-2xl font-bold text-red-600">
               {preparingOrders.filter(order => getTimeStatus(order) === 'overdue').length}

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Lock, 
-  Mail, 
-  Eye, 
-  EyeOff, 
-  ArrowLeft, 
+import {
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  ArrowLeft,
   Smartphone,
   User,
   AlertCircle,
@@ -37,7 +37,7 @@ const LoginPage = () => {
       }
     } else {
       const phoneRegex = /^[6-9]\d{9}$/;
-      const cleanPhone = phone.replace(/\D/g, '');
+      const cleanPhone = email.replace(/\D/g, '');
       if (!phoneRegex.test(cleanPhone)) {
         toast.error('Please enter a valid 10-digit phone number');
         return false;
@@ -54,18 +54,18 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
-    
+
     try {
-      const credentials = loginMethod === 'email' 
+      const credentials = loginMethod === 'email'
         ? { email, password }
         : { phone: email, password };
-      
+
       const result = await login(credentials);
-      
+
       if (result.success) {
         toast.success('Login successful!');
         navigate(from, { replace: true });
@@ -89,7 +89,7 @@ const LoginPage = () => {
 
     setEmail(demoCredentials[role].email);
     setPassword(demoCredentials[role].password);
-    
+
     toast.success(`Demo ${role} credentials filled`);
   };
 
@@ -130,26 +130,24 @@ const LoginPage = () => {
               <button
                 type="button"
                 onClick={() => setLoginMethod('email')}
-                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                  loginMethod === 'email'
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${loginMethod === 'email'
                     ? 'bg-white text-blue-600 shadow'
                     : 'text-gray-600 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 <div className="flex items-center justify-center space-x-2">
                   <Mail className="w-4 h-4" />
                   <span>Email</span>
                 </div>
               </button>
-              
+
               <button
                 type="button"
                 onClick={() => setLoginMethod('phone')}
-                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                  loginMethod === 'phone'
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${loginMethod === 'phone'
                     ? 'bg-white text-blue-600 shadow'
                     : 'text-gray-600 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 <div className="flex items-center justify-center space-x-2">
                   <Smartphone className="w-4 h-4" />
@@ -183,7 +181,7 @@ const LoginPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder={
-                    loginMethod === 'email' 
+                    loginMethod === 'email'
                       ? 'you@campus.edu'
                       : '9876543210'
                   }
@@ -289,7 +287,7 @@ const LoginPage = () => {
                 <User className="w-4 h-4 mr-2" />
                 Student
               </button>
-              
+
               <button
                 onClick={() => handleDemoLogin('vendor')}
                 className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
@@ -297,7 +295,7 @@ const LoginPage = () => {
                 <User className="w-4 h-4 mr-2" />
                 Vendor
               </button>
-              
+
               <button
                 onClick={() => handleDemoLogin('admin')}
                 className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
@@ -319,7 +317,7 @@ const LoginPage = () => {
                 Sign up for free
               </Link>
             </div>
-            
+
             <div className="mt-2 text-center text-xs text-gray-500">
               <Link
                 to="/vendor/login"
@@ -355,7 +353,7 @@ const LoginPage = () => {
               Accurate wait time predictions
             </p>
           </div>
-          
+
           <div className="text-center p-4 bg-white rounded-xl border border-gray-100">
             <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
               <Lock className="w-5 h-5 text-purple-600" />
@@ -365,7 +363,7 @@ const LoginPage = () => {
               PCI DSS compliant transactions
             </p>
           </div>
-          
+
           <div className="text-center p-4 bg-white rounded-xl border border-gray-100">
             <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-3">
               <User className="w-5 h-5 text-orange-600" />

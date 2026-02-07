@@ -178,6 +178,7 @@ const Sidebar = ({
 
   // Close mobile sidebar on route change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobileOpen(false);
   }, [location.pathname]);
 
@@ -298,10 +299,9 @@ const Sidebar = ({
                   px-3 py-3
                   rounded-lg
                   transition-all duration-200
-                  ${
-                    isActive
-                      ? "bg-blue-500 text-white shadow-lg"
-                      : "hover:bg-gray-700/50 text-gray-300"
+                  ${isActive
+                    ? "bg-blue-500 text-white shadow-lg"
+                    : "hover:bg-gray-700/50 text-gray-300"
                   }
                 `}
               >
@@ -344,10 +344,9 @@ const Sidebar = ({
                   px-3 py-3
                   rounded-lg
                   transition-all duration-200
-                  ${
-                    isActive
-                      ? "bg-blue-500 text-white shadow-lg"
-                      : "hover:bg-gray-700/50 text-gray-300"
+                  ${isActive
+                    ? "bg-blue-500 text-white shadow-lg"
+                    : "hover:bg-gray-700/50 text-gray-300"
                   }
                 `}
               >
@@ -460,6 +459,7 @@ const Sidebar = ({
 };
 
 // HOC for pages that need sidebar
+// eslint-disable-next-line react-refresh/only-export-components
 export const withSidebar = (WrappedComponent, variant = "student") => {
   return function WithSidebarComponent(props) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);

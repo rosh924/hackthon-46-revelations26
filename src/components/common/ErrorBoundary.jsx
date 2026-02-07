@@ -12,7 +12,7 @@ class ErrorBoundary extends Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(_error) {
     return { hasError: true };
   }
 
@@ -74,7 +74,7 @@ class ErrorBoundary extends Component {
                 </p>
 
                 {/* Error Details (Only in development) */}
-                {process.env.NODE_ENV === "development" && this.state.error && (
+                {import.meta.env.DEV && this.state.error && (
                   <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                     <h3 className="font-medium text-red-800 mb-2">
                       Error Details:
@@ -147,6 +147,7 @@ class ErrorBoundary extends Component {
 }
 
 // Higher Order Component for specific routes
+// eslint-disable-next-line react-refresh/only-export-components
 export const withErrorBoundary = (WrappedComponent, errorHandlers = {}) => {
   return class extends Component {
     render() {
@@ -163,6 +164,7 @@ export const withErrorBoundary = (WrappedComponent, errorHandlers = {}) => {
 };
 
 // Error fallback component for Suspense
+// eslint-disable-next-line react-refresh/only-export-components
 export const ErrorFallback = ({ error, resetErrorBoundary }) => {
   return (
     <div className="flex flex-col items-center justify-center p-8 bg-gray-50 rounded-xl">
